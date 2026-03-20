@@ -23,6 +23,7 @@ fun AgregarTransaccionScreen(
     
     var categorias by viewModel.categorias.collectAsState()
 
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
