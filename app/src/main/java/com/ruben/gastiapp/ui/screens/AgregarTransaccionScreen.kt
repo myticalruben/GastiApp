@@ -9,8 +9,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.ruben.gastiapp.data.local.entity.CategoriaEntity
 import com.ruben.gastiapp.viewmodel.FinanzasViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AgregarTransaccionScreen(
     navController: NavController,
@@ -18,12 +20,20 @@ fun AgregarTransaccionScreen(
 ) {
     var monto by remember { mutableStateOf("") }
     var nota by remember { mutableStateOf("") }
-    var tipoSeleccionado by remember { mutableStateOf("GASTO") }
+    var tipoSeleccionado by remember { mutableStateOf("GASTOS") }
 
-    var tiposTransaccion = listOf("GASTO", "INGRESO", "AHORRO")
-    
-    //var categorias by viewModel.categorias.collectAsState()
+    var tiposTransaccion = listOf("GASTOS", "INGRESOS", "AHORROS")
 
+    val todasLascategorias by viewModel.categorias.collectAsState()
+
+    val categoriasFiltradas = todasLascategorias.filter { it.tipo == tipoSeleccionado }
+
+    var menuExpandido by remember { mutableStateOf(false) }
+    var categoriaSeleccionada by remember { mutableStateOf<CategoriaEntity?>(null) }
+
+    LaunchedEffect(tipoSeleccionado) {
+        categoriaSeleccionada = null
+    }
 
     Column(
         modifier = Modifier
@@ -49,6 +59,42 @@ fun AgregarTransaccionScreen(
             }
         }
 
+        ExposedDropdownMenuBox(
+            expanded = menuExpandido,
+            onExpandedChange = { menuExpandido = !menuExpandido}
+        ) {
+            OutlinedTextField(
+                value = categoriaSeleccionada?.nombre ?: "Selecciona una categoria... ",
+                onValueChange = {},
+                readOnly = true,
+                label = { Text("Categoria")},
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = menuExpandido)},
+                modifier = Modifier.menuAnchor().fillMaxWidth()
+            )
+
+            ExposedDropdownMenu(
+                expanded = menuExpandido,
+                onDismissRequest = { menuExpandido = false}
+            ) {
+                if (categoriasFiltradas.isEmpty()){
+                    DropdownMenuItem(
+                        text = { Text("No hay categorias creadas para este tipo")},
+                        onClick = { menuExpandido = false}
+                    )
+                }else{
+                    categoriasFiltradas.forEach { categoria ->
+                        DropdownMenuItem(
+                            text = { Text(categoria.nombre)},
+                            onClick = {
+                                categoriaSeleccionada = categoria
+                                menuExpandido = false
+                            }
+                        )
+                    }
+                }
+            }
+        }
+
         OutlinedTextField(
             value = monto,
             onValueChange = { monto = it},
@@ -71,10 +117,10 @@ fun AgregarTransaccionScreen(
             onClick = {
                 val montoDouble = monto.toDoubleOrNull() ?: 0.0
 
-                if (montoDouble > 0){
+                if (montoDouble > 0 && categoriaSeleccionada != null){
                     viewModel.agregarTransaccion(
                         monto = montoDouble,
-                        categoriaId = "cat_1",
+                        categoriaId = categoriaSeleccionada!!.id,
                         nota = nota
                     )
 
@@ -82,7 +128,7 @@ fun AgregarTransaccionScreen(
                 }
             },
             modifier = Modifier.fillMaxWidth(),
-            enabled = monto.isNotBlank()
+            enabled = monto.isNotBlank() && categoriaSeleccionada != null
         ){
             Text("Guardar Transacción")
         }

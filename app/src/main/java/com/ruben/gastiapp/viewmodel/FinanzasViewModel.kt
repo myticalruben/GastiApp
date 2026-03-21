@@ -19,13 +19,13 @@ class FinanzasViewModel(private val dao: FinanzasDao): ViewModel() {
     val historial: StateFlow<List<TransaccionEntity>> = dao.obtenerHistorialTransacciones()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    val totalIngresos: StateFlow<Double?> = dao.obtenerTotalPorTipo("INGRESO")
+    val totalIngresos: StateFlow<Double?> = dao.obtenerTotalPorTipo("INGRESOS")
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0.0)
 
     val totalGastos: StateFlow<Double?> = dao.obtenerTotalPorTipo("GASTOS")
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0.0)
 
-    val totalAhorros: StateFlow<Double?> = dao.obtenerTotalPorTipo("AHORRO")
+    val totalAhorros: StateFlow<Double?> = dao.obtenerTotalPorTipo("AHORROS")
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0.0)
 
 

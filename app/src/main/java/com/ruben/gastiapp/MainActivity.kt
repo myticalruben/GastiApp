@@ -6,8 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +26,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
 import com.ruben.gastiapp.data.local.FinanzasDatabase
 import com.ruben.gastiapp.ui.screens.AgregarTransaccionScreen
+import com.ruben.gastiapp.ui.screens.CategoriasScreen
 import com.ruben.gastiapp.ui.screens.DashboardScreen
 import com.ruben.gastiapp.ui.theme.GastiAppTheme
 import com.ruben.gastiapp.viewmodel.FinanzasViewModel
@@ -67,7 +71,7 @@ fun MainAppStructure(navController: NavHostController, viewModel: FinanzasViewMo
             FloatingActionButton(onClick = {
                 navController.navigate(Rutas.AgregarTransaccion.ruta)
             }) {
-                Text("+")
+                Icon(Icons.Filled.Add, contentDescription = "Añadir Transaccion")
             }
         }
     ) { paddingValues ->
@@ -77,13 +81,13 @@ fun MainAppStructure(navController: NavHostController, viewModel: FinanzasViewMo
             modifier = Modifier.padding(paddingValues)
         ) {
             composable(Rutas.Dashboard.ruta) {
-                DashboardScreen(viewModel)
+                DashboardScreen(viewModel, navController)
             }
             composable(Rutas.Historial.ruta) {
                 HistorialScreen()
             }
             composable(Rutas.ConfiguracionCategorias.ruta) {
-                CategoriaScreen()
+                CategoriasScreen(navController, viewModel)
             }
             composable(Rutas.AgregarTransaccion.ruta) {
                 AgregarTransaccionScreen(navController, viewModel)
@@ -100,9 +104,4 @@ fun BottomNavigationBar(navController: NavHostController) {
 @Composable
 fun HistorialScreen() {
     Text("Pantalla: Historial")
-}
-
-@Composable
-fun CategoriaScreen() {
-    Text("Pantalla: Personalizar Categorias")
 }
