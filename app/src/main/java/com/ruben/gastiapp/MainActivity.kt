@@ -22,6 +22,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
 import com.ruben.gastiapp.data.local.FinanzasDatabase
+import com.ruben.gastiapp.ui.screens.AgregarTransaccionScreen
 import com.ruben.gastiapp.ui.screens.DashboardScreen
 import com.ruben.gastiapp.ui.theme.GastiAppTheme
 import com.ruben.gastiapp.viewmodel.FinanzasViewModel
@@ -31,6 +32,8 @@ sealed class Rutas(val ruta: String) {
     object Dashboard : Rutas("dashboard")
     object Historial : Rutas("historial")
     object ConfiguracionCategorias : Rutas("configuracion_categorias")
+
+    object AgregarTransaccion: Rutas("agregar_transaccion")
 }
 
 class MainActivity : ComponentActivity() {
@@ -61,7 +64,9 @@ fun MainAppStructure(navController: NavHostController, viewModel: FinanzasViewMo
     Scaffold(
         bottomBar = { BottomNavigationBar(navController) },
         floatingActionButton = {
-            FloatingActionButton(onClick = {}) {
+            FloatingActionButton(onClick = {
+                navController.navigate(Rutas.AgregarTransaccion.ruta)
+            }) {
                 Text("+")
             }
         }
@@ -79,6 +84,9 @@ fun MainAppStructure(navController: NavHostController, viewModel: FinanzasViewMo
             }
             composable(Rutas.ConfiguracionCategorias.ruta) {
                 CategoriaScreen()
+            }
+            composable(Rutas.AgregarTransaccion.ruta) {
+                AgregarTransaccionScreen(navController, viewModel)
             }
         }
     }

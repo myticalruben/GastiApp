@@ -43,12 +43,12 @@ class FinanzasViewModel(private val dao: FinanzasDao): ViewModel() {
     }
 
     fun agregarTransaccion(monto: Double, categoriaId: String, nota: String){
+        val nuevaTransaccion = TransaccionEntity(
+            monto = monto,
+            categoriaId = categoriaId,
+            nota = nota
+        )
         viewModelScope.launch {
-            val nuevaTransaccion = TransaccionEntity(
-                monto = monto,
-                categoriaId = categoriaId,
-                nota = nota
-            )
             dao.insertarTransaccion(nuevaTransaccion)
         }
     }
