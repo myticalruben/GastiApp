@@ -22,6 +22,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
 import com.ruben.gastiapp.data.local.FinanzasDatabase
@@ -65,13 +66,18 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainAppStructure(navController: NavHostController, viewModel: FinanzasViewModel) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val rutaActual = navBackStackEntry?.destination?.route
+
     Scaffold(
-        bottomBar = { BottomNavigationBar(navController) },
+        //bottomBar = { BottomNavigationBar(navController) },
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                navController.navigate(Rutas.AgregarTransaccion.ruta)
-            }) {
-                Icon(Icons.Filled.Add, contentDescription = "Añadir Transaccion")
+            if (rutaActual == Rutas.Dashboard.ruta){
+                FloatingActionButton(onClick = {
+                    navController.navigate(Rutas.AgregarTransaccion.ruta)
+                }) {
+                    Icon(Icons.Filled.Add, contentDescription = "Añadir Transaccion")
+                }
             }
         }
     ) { paddingValues ->
