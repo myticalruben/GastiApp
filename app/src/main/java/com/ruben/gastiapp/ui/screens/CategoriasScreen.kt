@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -66,6 +67,16 @@ fun CategoriasScreen(navController: NavController, viewModel: FinanzasViewModel)
                             Column {
                                 Text(text = categoria.nombre, style = MaterialTheme.typography.titleMedium)
                                 Text(text = categoria.tipo, style = MaterialTheme.typography.bodySmall, color = Color.Gray)
+                            }
+
+                            IconButton(onClick = {
+                                viewModel.eliminarCategoria(categoria)
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Filled.Delete,
+                                    contentDescription = "Eliminar",
+                                    tint = MaterialTheme.colorScheme.error
+                                )
                             }
                         }
                     }

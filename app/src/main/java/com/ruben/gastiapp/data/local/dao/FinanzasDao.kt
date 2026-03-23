@@ -1,6 +1,7 @@
 package com.ruben.gastiapp.data.local.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
@@ -17,6 +18,9 @@ interface FinanzasDao {
 
     @Insert(onConflict = REPLACE)
     suspend fun insertarTransaccion(transaccion: TransaccionEntity)
+
+    @Delete
+    suspend fun eliminarCategoria(categoria: CategoriaEntity)
 
     @Query("SELECT * FROM categorias")
     fun obtenerTodasLasCategorias(): Flow<List<CategoriaEntity>>

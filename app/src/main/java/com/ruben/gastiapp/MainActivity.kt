@@ -29,6 +29,7 @@ import com.ruben.gastiapp.data.local.FinanzasDatabase
 import com.ruben.gastiapp.ui.screens.AgregarTransaccionScreen
 import com.ruben.gastiapp.ui.screens.CategoriasScreen
 import com.ruben.gastiapp.ui.screens.DashboardScreen
+import com.ruben.gastiapp.ui.screens.HistorialScreen
 import com.ruben.gastiapp.ui.theme.GastiAppTheme
 import com.ruben.gastiapp.viewmodel.FinanzasViewModel
 import com.ruben.gastiapp.viewmodel.FinanzasViewModelFactory
@@ -36,9 +37,8 @@ import com.ruben.gastiapp.viewmodel.FinanzasViewModelFactory
 sealed class Rutas(val ruta: String) {
     object Dashboard : Rutas("dashboard")
     object Historial : Rutas("historial")
-    object ConfiguracionCategorias : Rutas("configuracion_categorias")
-
     object AgregarTransaccion: Rutas("agregar_transaccion")
+    object ConfiguracionCategorias : Rutas("configuracion_categorias")
 }
 
 class MainActivity : ComponentActivity() {
@@ -90,7 +90,7 @@ fun MainAppStructure(navController: NavHostController, viewModel: FinanzasViewMo
                 DashboardScreen(viewModel, navController)
             }
             composable(Rutas.Historial.ruta) {
-                HistorialScreen()
+                HistorialScreen(viewModel)
             }
             composable(Rutas.ConfiguracionCategorias.ruta) {
                 CategoriasScreen(navController, viewModel)
@@ -105,9 +105,4 @@ fun MainAppStructure(navController: NavHostController, viewModel: FinanzasViewMo
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
     // Implement navigation bar here
-}
-
-@Composable
-fun HistorialScreen() {
-    Text("Pantalla: Historial")
 }

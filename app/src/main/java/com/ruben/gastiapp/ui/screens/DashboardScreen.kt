@@ -16,6 +16,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -122,9 +123,13 @@ fun DashboardScreen(viewModel: FinanzasViewModel, navController: NavHostControll
                 style = MaterialTheme.typography.bodySmall,
                 color = Color.LightGray
             )
-        }
+            OutlinedButton(
+                onClick = {navController.navigate(Rutas.Historial.ruta)},
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Vet todo el historial")
+            }
 
-        item {
             Button(
                 onClick = { navController.navigate(Rutas.ConfiguracionCategorias.ruta)},
                 modifier = Modifier.fillMaxWidth()

@@ -52,4 +52,10 @@ class FinanzasViewModel(private val dao: FinanzasDao): ViewModel() {
             dao.insertarTransaccion(nuevaTransaccion)
         }
     }
+
+    fun eliminarCategoria(categoria: CategoriaEntity){
+        viewModelScope.launch {
+            dao.eliminarCategoria(categoria)
+        }
+    }
 }
