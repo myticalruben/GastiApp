@@ -123,19 +123,6 @@ fun DashboardScreen(viewModel: FinanzasViewModel, navController: NavHostControll
                 style = MaterialTheme.typography.bodySmall,
                 color = Color.LightGray
             )
-            OutlinedButton(
-                onClick = {navController.navigate(Rutas.Historial.ruta)},
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Vet todo el historial")
-            }
-
-            Button(
-                onClick = { navController.navigate(Rutas.ConfiguracionCategorias.ruta)},
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Gestionar las categorias")
-            }
         }
     }
 

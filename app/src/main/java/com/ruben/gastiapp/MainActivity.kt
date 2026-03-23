@@ -26,6 +26,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
 import com.ruben.gastiapp.data.local.FinanzasDatabase
+import com.ruben.gastiapp.ui.components.NavegacionInferior
 import com.ruben.gastiapp.ui.screens.AgregarTransaccionScreen
 import com.ruben.gastiapp.ui.screens.CategoriasScreen
 import com.ruben.gastiapp.ui.screens.DashboardScreen
@@ -70,7 +71,7 @@ fun MainAppStructure(navController: NavHostController, viewModel: FinanzasViewMo
     val rutaActual = navBackStackEntry?.destination?.route
 
     Scaffold(
-        //bottomBar = { BottomNavigationBar(navController) },
+        bottomBar = { NavegacionInferior(navController) },
         floatingActionButton = {
             if (rutaActual == Rutas.Dashboard.ruta){
                 FloatingActionButton(onClick = {
@@ -102,7 +103,3 @@ fun MainAppStructure(navController: NavHostController, viewModel: FinanzasViewMo
     }
 }
 
-@Composable
-fun BottomNavigationBar(navController: NavHostController) {
-    // Implement navigation bar here
-}

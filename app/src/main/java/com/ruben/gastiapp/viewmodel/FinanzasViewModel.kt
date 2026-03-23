@@ -3,6 +3,7 @@ package com.ruben.gastiapp.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ruben.gastiapp.data.local.dao.FinanzasDao
+import com.ruben.gastiapp.data.local.dao.TotalesGastoCategoria
 import com.ruben.gastiapp.data.local.entity.CategoriaEntity
 import com.ruben.gastiapp.data.local.entity.TransaccionEntity
 import kotlinx.coroutines.flow.SharingStarted
@@ -28,7 +29,8 @@ class FinanzasViewModel(private val dao: FinanzasDao): ViewModel() {
     val totalAhorros: StateFlow<Double?> = dao.obtenerTotalPorTipo("AHORROS")
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0.0)
 
-
+    val totalesGastoCategoria: StateFlow<List<TotalesGastoCategoria>> = dao.obtenerTotalesGastoPorCategoria()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     fun agregarCategoria(nombre: String, icono: String, color: Int, tipo: String){
         viewModelScope.launch {
