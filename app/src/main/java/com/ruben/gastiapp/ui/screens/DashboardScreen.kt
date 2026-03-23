@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -123,6 +124,24 @@ fun DashboardScreen(viewModel: FinanzasViewModel, navController: NavHostControll
                 style = MaterialTheme.typography.bodySmall,
                 color = Color.LightGray
             )
+        }
+
+        item {
+            Card(
+                modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp).fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(text = "Gastos por Categoria", style = MaterialTheme.typography.titleMedium)
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    val totalesPorCategoria by viewModel.totalesGastoCategoria.collectAsState()
+                    GraficaGastosPorCategoria(datos = totalesPorCategoria)
+                }
+            }
         }
     }
 
